@@ -9,7 +9,7 @@ const handle = app.getRequestHandler();
 
 const postListFilePath = path.join(__dirname, "../data/post-list.json");
 
-let posts = JSON.parse(fs.readFileSync(postListFilePath, "utf-8"));
+let post = JSON.parse(fs.readFileSync(postListFilePath, "utf-8"));
 
 app.prepare().then(() => {
   const server = express();
@@ -24,12 +24,12 @@ app.prepare().then(() => {
     // } else {
     //   res.send(todos);
     // }
-    res.send(posts);
+    res.send(post);
   });
 
   server.get("/api/posts/:id", (req, res) => {
     const { id } = req.params;
-    const post = posts.find((t) => t.id === Number(id));
+    const post = post.find((t) => t.id === Number(id));
     if (post) {
       res.send(post);
     } else {
@@ -38,20 +38,27 @@ app.prepare().then(() => {
   });
 
   server.post("/api/posts", (req, res) => {
-    const newPost = req.body;
-    posts.push(newPost);
-    fs.writeFileSync(postListFilePath, JSON.stringify(posts, null, 2));
+    const { title, content } = req.body;
+    const newId = post.length > 0 ? post[post.length - 1].id + 1 : 1;
+    const newPost = {
+      id: newId,
+      title,
+      content,
+      createdAt: new Date().toISOString(),
+    };
+    post.push(newPost);
+    fs.writeFileSync(postListFilePath, JSON.stringify(post, null, 2));
     res.send(newPost);
   });
 
   server.put("/api/posts/:id", (req, res) => {
     const { id } = req.params;
     const change = req.body;
-    const changedPost = posts.find((t) => t.id === Number(id));
+    const changedPost = post.find((t) => t.id === Number(id));
     if (changedPost) {
       Object.keys(change).forEach((prop) => {
         changedPost[prop] = change[prop];
-        fs.writeFileSync(postListFilePath, JSON.stringify(posts, null, 2));
+        fs.writeFileSync(postListFilePath, JSON.stringify(post, null, 2));
       });
       res.send(changedPost);
     }
@@ -59,10 +66,10 @@ app.prepare().then(() => {
 
   server.delete("/api/posts/:id", (req, res) => {
     const { id } = req.params;
-    const postsCount = posts.length;
-    posts = posts.filter((post) => post.id !== Number(id));
-    if (posts.length < postsCount) {
-      fs.writeFileSync(postListFilePath, JSON.stringify(posts, null, 2));
+    const postsCount = post.length;
+    post = post.filter((post) => post.id !== Number(id));
+    if (post.length < postsCount) {
+      fs.writeFileSync(postListFilePath, JSON.stringify(post, null, 2));
       res.send(res.send({ message: "deleted." }));
     } else {
       res.status(404).send({ message: "There is no todo with the id!" });

@@ -1,25 +1,25 @@
-GET http://localhost:3000/api/datas
+GET http://localhost:3000/api/posts
 
 ###
 
-POST http://localhost:3000/api/datas
+POST http://localhost:3000/api/posts
 Content-Type: application/json
 
 {
-    "id":4,
-    "content":"유튜브 보기"
+    "title":"제목4",
+    "content":"hello3"
 }
 
 ###
 
-PUT http://localhost:3000/api/datas/2
+PUT http://localhost:3000/api/posts/2
 Content-Type: application/json
 
 {
     "id": 2,
-    "content": "식물에 물 주기3"
+    "title": "식물에 물 주기3"
 }
 
 ###
 
-DELETE http://localhost:3000/api/datas/4
+DELETE http://localhost:3000/api/posts/5
