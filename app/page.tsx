@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
 
-function App() {
+function Homepage() {
   const onClickGet = async () => {
     try {
       const response = await fetch("/api/datas");
@@ -22,9 +24,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: id,
-          isdone: false,
           content: "tv시청",
-          type: "딱히",
         }),
       });
       if (!response.ok) {
@@ -42,7 +42,7 @@ function App() {
       const response = await fetch(`/api/datas/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isdone: false }),
+        body: JSON.stringify({ content: "없음!" }),
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -80,4 +80,4 @@ function App() {
   );
 }
 
-export default App;
+export default Homepage;
