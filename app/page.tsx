@@ -3,72 +3,13 @@
 import React from "react";
 
 function Homepage() {
-  const onClickGet = async () => {
-    try {
-      const response = await fetch("/api/datas");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      console.log(data);
-    } catch (err) {
-      console.error("failed to fetch data", err);
-    }
-  };
+  const onClickGet = async () => {};
 
-  const onClickPost = async () => {
-    const id = 5;
-    try {
-      const response = await fetch(`/api/datas`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: id,
-          content: "tv시청",
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-    } catch (err) {
-      console.error("failed to fetch data", err);
-    }
-  };
+  const onClickPost = async () => {};
 
-  const onClickPut = async () => {
-    try {
-      const id = 1;
-      const response = await fetch(`/api/datas/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: "없음!" }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      console.log("updated data : ", data);
-    } catch (err) {
-      console.error("failed to fetch data", err);
-    }
-  };
+  const onClickPut = async () => {};
 
-  const onClickDelete = async () => {
-    try {
-      const id = 5;
-      const response = await fetch(`/api/datas/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-    } catch (err) {
-      console.error("failed to fetch data", err);
-    }
-  };
+  const onClickDelete = async () => {};
 
   return (
     <div className="App">

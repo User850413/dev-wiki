@@ -7,16 +7,16 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const datasFilePath = path.join(__dirname, "../data/data.json");
+const postListFilePath = path.join(__dirname, "../data/post-list.json");
 
-let datas = JSON.parse(fs.readFileSync(datasFilePath, "utf-8"));
+let posts = JSON.parse(fs.readFileSync(postListFilePath, "utf-8"));
 
 app.prepare().then(() => {
   const server = express();
 
   server.use(express.json());
 
-  server.get("/api/datas", (req, res) => {
+  server.get("/api/posts", (req, res) => {
     // const { tag } = req.query;
     // if (tag) {
     //   const todo = todos.filter((t) => t.tag === tag);
@@ -24,45 +24,45 @@ app.prepare().then(() => {
     // } else {
     //   res.send(todos);
     // }
-    res.send(datas);
+    res.send(posts);
   });
 
-  server.get("/api/datas/:id", (req, res) => {
+  server.get("/api/posts/:id", (req, res) => {
     const { id } = req.params;
-    const data = datas.find((t) => t.id === Number(id));
-    if (data) {
-      res.send(data);
+    const post = posts.find((t) => t.id === Number(id));
+    if (post) {
+      res.send(post);
     } else {
-      res.status(404).send({ message: "There is no todo with the id!" });
+      res.status(404).send({ message: "There is no post with the id!" });
     }
   });
 
-  server.post("/api/datas", (req, res) => {
-    const newData = req.body;
-    datas.push(newData);
-    fs.writeFileSync(datasFilePath, JSON.stringify(datas, null, 2));
-    res.send(newData);
+  server.post("/api/posts", (req, res) => {
+    const newPost = req.body;
+    posts.push(newPost);
+    fs.writeFileSync(postListFilePath, JSON.stringify(posts, null, 2));
+    res.send(newPost);
   });
 
-  server.put("/api/datas/:id", (req, res) => {
+  server.put("/api/posts/:id", (req, res) => {
     const { id } = req.params;
     const change = req.body;
-    const changedTodo = datas.find((t) => t.id === Number(id));
-    if (changedTodo) {
+    const changedPost = posts.find((t) => t.id === Number(id));
+    if (changedPost) {
       Object.keys(change).forEach((prop) => {
-        changedTodo[prop] = change[prop];
-        fs.writeFileSync(datasFilePath, JSON.stringify(datas, null, 2));
+        changedPost[prop] = change[prop];
+        fs.writeFileSync(postListFilePath, JSON.stringify(posts, null, 2));
       });
-      res.send(changedTodo);
+      res.send(changedPost);
     }
   });
 
-  server.delete("/api/datas/:id", (req, res) => {
+  server.delete("/api/posts/:id", (req, res) => {
     const { id } = req.params;
-    const todosCount = datas.length;
-    datas = datas.filter((todo) => todo.id !== Number(id));
-    if (datas.length < todosCount) {
-      fs.writeFileSync(datasFilePath, JSON.stringify(datas, null, 2));
+    const postsCount = posts.length;
+    posts = posts.filter((post) => post.id !== Number(id));
+    if (posts.length < postsCount) {
+      fs.writeFileSync(postListFilePath, JSON.stringify(posts, null, 2));
       res.send(res.send({ message: "deleted." }));
     } else {
       res.status(404).send({ message: "There is no todo with the id!" });
