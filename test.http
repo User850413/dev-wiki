@@ -1,0 +1,25 @@
+GET http://localhost:3000/api/datas
+
+###
+
+POST http://localhost:3000/api/datas
+Content-Type: application/json
+
+{
+    "id":4,
+    "content":"유튜브 보기"
+}
+
+###
+
+PUT http://localhost:3000/api/datas/2
+Content-Type: application/json
+
+{
+    "id": 2,
+    "content": "식물에 물 주기3"
+}
+
+###
+
+DELETE http://localhost:3000/api/datas/4
